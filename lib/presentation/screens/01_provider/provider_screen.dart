@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/providers.dart';
 
-class ProviderScreen extends StatelessWidget {
+class ProviderScreen extends ConsumerStatefulWidget {
   const ProviderScreen({super.key});
+
+  @override
+  ProviderScreenState createState() => ProviderScreenState();
+}
+
+class ProviderScreenState extends ConsumerState<ProviderScreen> {
+  String getName() {
+    final nameProvider = ref.watch(simpleNameProvider);
+    return nameProvider;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,8 +22,8 @@ class ProviderScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Provider'),
       ),
-      body: const Center(
-        child: Text('Fernando Herrera'),
+      body: Center(
+        child: Text(getName()),
       ),
     );
   }
