@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/providers.dart';
+
 class FamilyFutureScreen extends ConsumerStatefulWidget {
   const FamilyFutureScreen({super.key});
 
@@ -13,18 +15,22 @@ class FamilyFutureScreenState extends ConsumerState<FamilyFutureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pokemonAsync = ref.watch(pokemonNameProvider);
-
+    final pokemonAsync = ref.watch(pokemonProvider(pokemonId));
     return Scaffold(
       appBar: AppBar(
         title: const Text('Family Future Provider'),
       ),
-      body: const Center(
-        child: Text('Fernando Herrera'),
-      ),
+      body: Center(
+          child: pokemonAsync.when(
+              data: (name) => Text(name),
+              error: (_, __) => const Text('No se pudo obtener el nombre.'),
+              loading: () => const CircularProgressIndicator())),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.refresh),
-        onPressed: () {},
+        onPressed: () {
+          pokemonId++;
+          setState(() {});
+        },
       ),
     );
   }
